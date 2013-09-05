@@ -13,7 +13,7 @@ function expect_error(fun)
     end
 
     % count testcases up
-    singleton_counter('testcase');
+%    singleton_counter('testcase');
     
     if ~bCaught
         error('Error expected, but none occurred.');

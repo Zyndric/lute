@@ -11,16 +11,11 @@ function all_suites(testdir)
     % save path state and add testdir in order to find single_suite
     oldpath = path;
     addpath(testdir);
-    
-    % TODO: dynamically determine test suites
-    suites = { ...
-        'test_common_basepath', ...
-        'test_dirset', ...
-        'test_fileset', ...
-        'test_fullfilec', ...
-        'test_relpath', ...
-        };
 
+    % dynamically determine test suites
+    testfiles = dir(fullfile(testdir, 'test_*.m'));
+    [dummy suites] = cellfun(@fileparts, {testfiles.name}, 'UniformOutput', false);
+    
     % execute test suites
     suite_infos = cellfun(@single_suite, suites);
     
