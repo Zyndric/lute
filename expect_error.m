@@ -27,7 +27,6 @@ function expect_error(fun, id)
         else
             % got another error, which we assume to be a proper error
             tc.error = true;
-            tc.errorid = err_struct.identifier;
             tc.message = err_struct.getReport();
         end
     else
