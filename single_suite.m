@@ -21,10 +21,6 @@ function suite_info = single_suite(name, paths)
         'stdouts', {{}} ...
         );
 
-    % define dependency dirs
-    testdir = fileparts(mfilename('fullpath'));
-    srcdir = fullfile(fileparts(testdir), 'src');
-
     % switch off stub warnings
     oldwarnstate = warning('off', 'MATLAB:dispatcher:nameConflict');
     
@@ -51,8 +47,11 @@ function suite_info = single_suite(name, paths)
     suite_info.time = sum(double([suite_info.testcase_info.time]));
 
     outstring = sprintf('%24s:%3d tests run', name, suite_info.testcases);
-    if suite_info.failures > 0
-        outstring = [outstring ' with FAILURE'];
+    all_failures = suite_info.failures + suite_info.errors;
+    if all_failures > 0
+        plural = '';
+        if all_failures > 1, plural = 's'; end
+        outstring = [outstring sprintf(',%3d test%s failed', all_failures, plural)];
     end
     disp(outstring);
 

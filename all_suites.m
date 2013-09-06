@@ -23,17 +23,13 @@ function all_suites(testdir)
     fprintf('Executed %d test cases in %d test suites.\n', ...
         sum([suite_infos.testcases]), ...
         numel(suite_infos));
-    failures = sum([suite_infos.failures]);
-    errors = sum([suite_infos.errors]);
-    if failures == 0 && errors == 0
-        disp('All suites successfull.')
+    all_failures = sum([suite_infos.failures]) + sum([suite_infos.errors]);
+    if all_failures == 0
+        disp('All test cases successfull.')
     else
-        if failures ~= 0
-            fprintf('%d test suites failed.\n', failures);
-        end
-        if errors ~= 0
-            fprintf('%d test suites had errors.\n', errors);
-        end
+        plural = '';
+        if all_failures > 1, plural = 's'; end
+        fprintf('%d test case%s failed.\n', all_failures, plural);
     end
     fprintf('Execution time: %.2f s.\n', sum([suite_infos.time]));
 

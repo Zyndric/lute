@@ -1,15 +1,15 @@
-function tcstruct = testcase_struct(name, fail, bError, message, cmdout, time)
+function tcstruct = testcase_struct(name, bFail, bError, message, cmdout, time)
 
     % without arguments, produce correctly typed, but empty structure
     if nargin == 0
         name = {};
-        fail = {};
+        bFail = {};
         bError = {};
         message = {};
         cmdout = {};
         time = {};
     else
-        if nargin < 2, fail = false; end
+        if nargin < 2, bFail = false; end
         if nargin < 3, bError = false; end
         if nargin < 4, message = ''; end
         if nargin < 5, cmdout = ''; end
@@ -18,7 +18,7 @@ function tcstruct = testcase_struct(name, fail, bError, message, cmdout, time)
 
     tcstruct = struct(...
         'name', name, ...
-        'fail', fail, ...
+        'fail', bFail, ...
         'error', bError, ...
         'message', message, ...
         'cmdout', cmdout, ...
