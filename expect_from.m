@@ -8,7 +8,7 @@ function expect_from(varargin)
     % first argument is the function itself, rest are output arguments
     nargs = numel(varargin)-1;
 
-    tc = testcase_struct('');
+    tc = testcase_struct(func2str(varargin{1}));
     
     actual = cell(1,nargs);
     try

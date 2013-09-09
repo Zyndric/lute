@@ -35,3 +35,37 @@ function all_suites(testdir)
 
     % restore old path
     path(oldpath);
+
+    disp_error_details(suite_infos);
+
+
+function disp_error_details(suite_infos)
+
+    % collate all test case infos
+    testcase_infos = [suite_infos.testcase_info];
+
+    % filter failures/errors
+    failures = testcase_infos([testcase_infos.fail]);
+    errors = testcase_infos([testcase_infos.error]);
+
+    if ~isempty(failures)
+        fprintf('\n');
+        disp('Failure details:');
+        arrayfun(@disp_test_failure, failures);
+    end
+    if ~isempty(errors)
+        fprintf('\n');
+        disp('Error details:');
+        arrayfun(@disp_test_errors, errors);
+    end
+
+
+function disp_test_failure(testcase_info)
+
+    fprintf('Function %s reported failure: %s\n', testcase_info.name, testcase_info.message);
+
+
+function disp_test_errors(testcase_info)
+ 
+    fprintf('Function %s reported error: %s\n', testcase_info.name, testcase_info.message);
+
