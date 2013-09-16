@@ -25,7 +25,7 @@ function expect_from(varargin)
     
     if ~tc.error
         % check for equality with expected output
-        equals = cellfun(@isequal, actual, expected);
+        equals = cellfun(@isequalwithtypes, actual, expected);
         if ~all(equals)
             tc.fail = true;
             tc.message = sprintf('Expected %s did not match actual %s on output arguments %s.', string(expected), string(actual), string(double(equals)));
@@ -51,3 +51,25 @@ function result = strjoin(stringcell, separator)
 
     if isempty(stringcell), result = ''; return; end
     result = [sprintf(['%s' separator], stringcell{1:end-1}), stringcell{end}];
+
+
+% Apparently, isqual() R2007b thinks [] and '' equal, which we would not expect.
+% Therefore, handle string and non-string return arguments as inequal. Does not
+% consider nesting further than one cell array level.
+% Does not compromise double/int comparison.
+function equal = isequalwithtypes(a, b)
+
+    % char type is equal if both are char, or both are not
+    equal_char_type = @(a, b) ~xor(ischar(a), ischar(b));
+    
+    % work all() along all elements of multi-dimensional matrices by linearizing
+    allall = @(a) all(a(:));
+
+    if iscell(a) && iscell(b)
+        % if this is a cell array, all its elements must be of equal char type
+        equal = isequal(a, b) && allall(cellfun(equal_char_type, a, b));
+    elseif ~equal_char_type(a, b)
+        equal = false;
+    else
+        equal = isequal(a, b);
+    end
