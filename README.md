@@ -34,14 +34,11 @@ Mutual dependencies
 
 These dependencies exist:
 
-- expect_error --> testcase_struct
-  expect_from
-  testcase_collector
-  single_suite
-- expect_error --> testcase_collector
-  expect_from
-  single_suite
-- all_suites --> single_suite
+    expect_error --> |
+    expect_from  --> | testcase_collector --> testcase_struct
+    single_suite --> |
+
+    all_suites --> single_suite
 
 
 TODO
