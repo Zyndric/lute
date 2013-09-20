@@ -37,3 +37,8 @@ function expect_error(fun, id)
 
     % add testcase
     testcase_collector(tc);
+
+    if ~suppress_output()
+        print_testcase(tc);
+    end
+

@@ -32,6 +32,9 @@ function suite_info = single_suite(name, paths)
 
     % reset suite information
     testcase_collector('reset');
+
+    % prevent expect_* from disping
+    suppress_output(true);
     
     try
         % TODO: catch standard output and return some other way
@@ -39,6 +42,9 @@ function suite_info = single_suite(name, paths)
     catch err
         disp(err.getReport());
     end
+
+    % allow expect_* disping again
+    suppress_output(false);
 
     suite_info.testcase_info = testcase_collector('reset');
     suite_info.testcases = numel(suite_info.testcase_info);

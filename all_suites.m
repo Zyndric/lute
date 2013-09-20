@@ -20,6 +20,8 @@ function all_suites(testdir)
     suite_infos = cellfun(@single_suite, suites);
     
     % output summary
+    print_headline('summary');
+    fprintf('\n');
     fprintf('Executed %d test cases in %d test suites.\n', ...
         sum([suite_infos.testcases]), ...
         numel(suite_infos));
@@ -45,27 +47,23 @@ function disp_error_details(suite_infos)
     testcase_infos = [suite_infos.testcase_info];
 
     % filter failures/errors
-    failures = testcase_infos([testcase_infos.fail]);
-    errors = testcase_infos([testcase_infos.error]);
+    failures = testcase_infos([testcase_infos.fail] | [testcase_infos.error]);
 
     if ~isempty(failures)
-        fprintf('\n');
-        disp('Failure details:');
-        arrayfun(@disp_test_failure, failures);
-    end
-    if ~isempty(errors)
-        fprintf('\n');
-        disp('Error details:');
-        arrayfun(@disp_test_errors, errors);
+        print_headline('failure/error details');
+        arrayfun(@print_testcase_with_blankline, failures);
     end
 
 
-function disp_test_failure(testcase_info)
+% prints a blank line, then the testcase info
+function print_testcase_with_blankline(tc)
 
-    fprintf('Function %s reported failure: %s\n', testcase_info.name, testcase_info.message);
+    fprintf('\n');
+    print_testcase(tc);
 
 
-function disp_test_errors(testcase_info)
- 
-    fprintf('Function %s reported error: %s\n', testcase_info.name, testcase_info.message);
+function print_headline(text)
+
+    fprintf('\n');
+    disp(['=== ' upper(text) ' ===']);
 

@@ -14,6 +14,9 @@ function expect_from(varargin)
     try
         tic;
         % evalc works on the local workspace
+        % sometimes, if the eval cmd does not output any text, tc.cmdout may in
+        % fact not only be empty, but even not assigned at all, which, in this
+        % case doesn't matter, because we initialized it earlier.
         [tc.cmdout, actual{:}] = evalc('varargin{1}()');
         tc.time = toc;
     catch me
@@ -35,6 +38,10 @@ function expect_from(varargin)
     % add testcase
     testcase_collector(tc);
 
+    if ~suppress_output()
+        print_testcase(tc);
+    end
+    
     
 function str = string(value)
 
