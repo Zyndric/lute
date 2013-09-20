@@ -49,3 +49,6 @@ TODO
 - display some rendition of the function string as test case name
 - calculate the file and line where a failed expect_* call was made from
 - Fix: all_suites fails when no test cases are found
+- Fix: if expect_from is called with arguments, but the function returns less
+  arguments, a difficult to understand error message results
+
