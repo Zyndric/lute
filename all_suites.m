@@ -1,4 +1,6 @@
-% Execute all test suites consecutively.
+%ALL_SUITES Execute all test suites of a directory consecutively.
+%   ALL_SUITES(D) executes all test_*.m files in directory D. Prints a summary
+%   and detailed failure/error information.
 
 % Copyright (c) 2013, Alexander Roehnsch
 % Released under the terms of the BSD 2-Clause License (FreeBSD license)

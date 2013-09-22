@@ -21,9 +21,6 @@ function suite_info = single_suite(name, paths)
         'stdouts', {{}} ...
         );
 
-    % switch off stub warnings
-    oldwarnstate = warning('off', 'MATLAB:dispatcher:nameConflict');
-    
     % save path state and add any dependency dirs the user specified
     oldpath = path;
     if ~isempty(paths)
@@ -64,5 +61,3 @@ function suite_info = single_suite(name, paths)
     % restore old path
     path(oldpath);
 
-    % restore warn state
-    warning(oldwarnstate);
