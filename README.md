@@ -51,4 +51,5 @@ TODO
 - Fix: all_suites fails when no test cases are found
 - Fix: if expect_from is called with arguments, but the function returns less
   arguments, a difficult to understand error message results
+- Test lute itself
 
