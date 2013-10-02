@@ -37,6 +37,19 @@ function all_suites(testdir)
     end
     fprintf('Execution time: %.2f s.\n', sum([suite_infos.time]));
 
+    suite_fails = {suite_infos([suite_infos.suite_fail]).name};
+    if ~isempty(suite_fails)
+        fprintf('\n');
+        strjoin = @(strcell) [sprintf(['%s, '], strcell{1:end-1}), ...
+            strcell{end}];
+        suite_namestring = strjoin(suite_fails);
+        warning('LUTE:errorOutsideTestcase', ['Some test suites ' ...
+        'failed during their preparation code, i.e. outside an expect_* '...
+        'call. This probably happened early, preventing some of your ' ...
+        'test cases to execute. Additional test cases were added for you ' ...
+        'to examine the error location for these suites: ' suite_namestring ...
+        '. Fix the suite code in order to execute your tests reliably.']);
+    end
     % restore old path
     path(oldpath);
 

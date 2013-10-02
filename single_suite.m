@@ -33,28 +33,45 @@ function suite_info = single_suite(name, paths)
     % prevent expect_* from disping
     suppress_output(true);
     
+    suite_fail = false;
     try
-        % TODO: catch standard output and return some other way
+        % standard output will show on the MATLAB console in order to let the
+        % user debug
         eval(name);
     catch err
-        disp(err.getReport());
+        % there was an error in the users test function but outside any
+        % expect_* call
+        suite_fail = true;
+
+        % add testcase for user to examine the error
+        testcase_collector(testcase_struct( ...
+            name, ...   % test case name
+            false, ...  % is not a failure
+            true, ...   % but an error
+            err.getReport()));
     end
 
     % allow expect_* disping again
     suppress_output(false);
 
+    % collect suite information
     suite_info.testcase_info = testcase_collector('reset');
     suite_info.testcases = numel(suite_info.testcase_info);
     suite_info.failures = sum(double([suite_info.testcase_info.fail]));
     suite_info.errors = sum(double([suite_info.testcase_info.error]));
     suite_info.time = sum(double([suite_info.testcase_info.time]));
+    suite_info.suite_fail = suite_fail;
 
+    % output summary
     outstring = sprintf('%24s:%3d tests run', name, suite_info.testcases);
     all_failures = suite_info.failures + suite_info.errors;
     if all_failures > 0
         plural = '';
         if all_failures > 1, plural = 's'; end
         outstring = [outstring sprintf(',%3d test%s failed', all_failures, plural)];
+    end
+    if suite_fail
+        outstring = [outstring sprintf(', suite contains errors')];
     end
     disp(outstring);
 
