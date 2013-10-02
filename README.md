@@ -25,8 +25,6 @@ Existing functions
 ------------------
 
 - all_suites    Execute all test suites consecutively.
-- single_suite  Execute a single test suite.
-
 - expect_from   Wrap function call to assert several output arguments.
 - expect_error  Wrap function call to assert error.
 
@@ -36,11 +34,9 @@ Mutual dependencies
 
 These dependencies exist:
 
-    expect_error --> |
-    expect_from  --> | testcase_collector --> testcase_struct
-    single_suite --> |
-
-    all_suites --> single_suite
+                   expect_error --> |
+                   expect_from  --> | testcase_collector --> testcase_struct
+    all_suites --> single_suite --> |
 
 
 TODO
