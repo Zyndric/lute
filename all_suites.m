@@ -35,7 +35,7 @@ function all_suites(testdir)
         if all_failures > 1, plural = 's'; end
         fprintf('%d test case%s failed.\n', all_failures, plural);
     end
-    fprintf('Execution time: %.2f s.\n', sum([suite_infos.time]));
+    fprintf('Accumulated execution time: %.2f s.\n', sum([suite_infos.time]));
 
     suite_fails = {suite_infos([suite_infos.suite_fail]).name};
     if ~isempty(suite_fails)
